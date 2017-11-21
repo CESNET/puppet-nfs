@@ -16,6 +16,18 @@
 
 class nfs::server::config {
 
+  if $::nfs::defaults_file != undef {
+    augeas { $::nfs::defaults_file:
+      context => "/files/${::nfs::defaults_file}",
+      changes => [
+        "set MOUNTD_PORT ${::nfs::server_mountd_port}",
+        "set STATD_PORT ${::nfs::server_statd_port}",
+        "set LOCKD_TCPPORT ${::nfs::server_lockd_tcp_port}",
+        "set LOCKD_UDPPORT ${::nfs::server_lockd_udp_port}"
+      ]
+    }
+  }
+
   concat { $::nfs::exports_file:
     ensure  => present,
   }

@@ -165,6 +165,10 @@ class nfs::params {
                                         }
           $server_nfsv4_servicehelper = [ 'nfs-idmap.service' ]
           $server_service_name        = 'nfs-server.service'
+          $server_mountd_port         = '892'
+          $server_statd_port          = '662'
+          $server_lockd_tcp_port      = '32803'
+          $server_lockd_udp_port      = '32769'
         }
         default: {
           $client_idmapd_setting      = ['']
@@ -176,6 +180,10 @@ class nfs::params {
           $client_nfsv4_services      = {'rpcbind' => {}, 'rpcidmapd' => {}}
           $server_nfsv4_servicehelper = [ 'rpcidmapd', 'rpcbind' ]
           $server_service_name        = 'nfs'
+          $server_mountd_port         = '892'
+          $server_statd_port          = '662'
+          $server_lockd_tcp_port      = '32803'
+          $server_lockd_udp_port      = '32769'
         }
       }
     }

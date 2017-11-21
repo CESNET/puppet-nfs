@@ -99,6 +99,18 @@
 #   String. It defines the service helper like idmapd for servers configured with
 #   nfs version 4.
 #
+# [*server_mountd_port*]
+#   String. It defines which port should be used by nfs mountd service.
+#
+# [*server_statd_port*]
+#   String. It defines which port should be used by nfs statd service.
+#
+# [*server_lockd_udp_port*]
+#   String. It defines which port should be used by nfs lockd service (udp).
+#
+# [*server_lockd_tcp_port*]
+#   String. It defines which port should be used by nfs lockd service (tcp).
+#
 # [*client_services*]
 #   Nested Hash. It defines the servicenames need to be started when acting as a nfs client
 #
@@ -192,7 +204,11 @@ class nfs(
   Boolean $server_service_hasrestart                                                  = $::nfs::params::server_service_hasrestart,
   Boolean $server_service_hasstatus                                                   = $::nfs::params::server_service_hasstatus,
   Optional[String] $server_service_restart_cmd                                        = $::nfs::params::server_service_restart_cmd,
-  Optional[Array] $server_nfsv4_servicehelper                                        = $::nfs::params::server_nfsv4_servicehelper,
+  Optional[Array] $server_nfsv4_servicehelper                                         = $::nfs::params::server_nfsv4_servicehelper,
+  $server_mountd_port                                                                 = $::nfs::params::server_mountd_port,
+  $server_statd_port                                                                  = $::nfs::params::server_statd_port,
+  $server_lockd_udp_port                                                              = $::nfs::params::server_lockd_udp_port,
+  $server_lockd_tcp_port                                                              = $::nfs::params::server_lockd_tcp_port,
   $client_services                                                                    = $::nfs::params::client_services,
   $client_nfsv4_services                                                              = $::nfs::params::client_nfsv4_services,
   Boolean $client_services_enable                                                     = $::nfs::params::client_services_enable,
