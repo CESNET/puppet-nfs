@@ -165,6 +165,11 @@
 #   to be set to the same value on a server and client node to do correct uid and gid
 #   mapping. Defaults to <tt>$::domain</tt>.
 #
+# [*nfs_v4_idmap_local_realms*]
+#   String. It defines a comma-separated list of Kerberos realm
+#   names that should be considered to be equivalent to the
+#   local realm. Defaults to uppercased <tt>$::domain</tt>.
+#
 # === Examples
 #
 # * {Please take a look at} [https://github.com/derdanne/puppet-nfs#examples]
@@ -223,6 +228,7 @@ class nfs(
   String $nfs_v4_export_root_clients                                                  = $::nfs::params::nfs_v4_export_root_clients,
   String $nfs_v4_mount_root                                                           = $::nfs::params::nfs_v4_mount_root,
   String $nfs_v4_idmap_domain                                                         = $::nfs::params::nfs_v4_idmap_domain,
+  String $nfs_v4_idmap_local_realms                                                   = $::nfs::params::nfs_v4_idmap_local_realms,
   String $nfs_v4_root_export_ensure                                                   = 'mounted',
   Optional[String] $nfs_v4_root_export_mount                                          = undef,
   Boolean $nfs_v4_root_export_remounts                                                = false,

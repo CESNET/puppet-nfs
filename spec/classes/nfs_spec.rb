@@ -212,11 +212,16 @@ describe 'nfs' do
         end
 
         context 'nfs_v4 => true' do
-          let(:params) { { nfs_v4: true, server_enabled: true, client_enabled: false, nfs_v4_idmap_domain: 'teststring' } }
+          let(:params) { {
+                  nfs_v4: true, server_enabled: true, client_enabled: false,
+                  nfs_v4_idmap_domain: 'teststring', nfs_v4_idmap_local_realms: 'TESTDOMAIN'
+          } }
 
           it { is_expected.to contain_concat__fragment('nfs_exports_root').with('target' => '/etc/exports') }
           it { is_expected.to contain_file('/export').with('ensure' => 'directory') }
-          it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(%r{set Domain teststring}) }
+          it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(
+                  [%r{set Domain teststring}, %r{set Local-Realms TESTDOMAIN}]
+          ) }
           context os do
             if server_servicehelpers != ''
               server_servicehelpers.each do |server_servicehelper|
@@ -300,12 +305,18 @@ describe 'nfs' do
         it { is_expected.to contain_concat__fragment('nfs_exports_header').with('target' => '/etc/exports') }
 
         context 'nfs_v4 => true, nfs_v4_client => true' do
-          let(:params) { { nfs_v4: true, nfs_v4_client: true, server_enabled: true, client_enabled: true, nfs_v4_idmap_domain: 'teststring' } }
+          let(:params) { {
+                  nfs_v4: true, nfs_v4_client: true, server_enabled: true,
+                  client_enabled: true, nfs_v4_idmap_domain: 'teststring',
+                  nfs_v4_idmap_local_realms: 'TESTDOMAIN'
+          } }
 
           it { is_expected.to contain_augeas('/etc/idmapd.conf') }
           it { is_expected.to contain_concat__fragment('nfs_exports_root').with('target' => '/etc/exports') }
           it { is_expected.to contain_file('/export').with('ensure' => 'directory') }
-          it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(%r{set Domain teststring}) }
+          it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(
+                  [%r{set Domain teststring}, %r{set Local-Realms TESTDOMAIN}]
+          ) }
           context os do
             if server_servicehelpers != ''
               server_servicehelpers.each do |server_servicehelper|

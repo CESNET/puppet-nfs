@@ -26,8 +26,8 @@ It supports the OS Families Ubuntu, Debian, Redhat, SUSE, Gentoo and Archlinux. 
 OS specific parameters correctly it should work on your preferred OS too. Feedback, bugreports,
 and feature requests are always welcome, visit https://github.com/derdanne/puppet-nfs or send me an email.
 
-When you are using a puppet version 3.x like it is shipped with Redhat Satellite 6, please use a version 1.x.x from puppet forge 
-or the branch puppet3 when cloning directly from Github. (Note: https://github.com/derdanne/puppet-nfs/pull/49#issuecomment-285091678). 
+When you are using a puppet version 3.x like it is shipped with Redhat Satellite 6, please use a version 1.x.x from puppet forge
+or the branch puppet3 when cloning directly from Github. (Note: https://github.com/derdanne/puppet-nfs/pull/49#issuecomment-285091678).
 I'll recommend using puppet >= 4.6.1, puppet versions up until 4.6.0 had various issues.
 
 If you want to contribute, please do a fork on github, create a branch "feature name" with your
@@ -37,8 +37,8 @@ features and do a pull request.
 
 ### What derdanne-nfs affects
 
-This module can be used to configure your nfs client and/or server, it could export 
-nfs mount resources via storeconfigs or simply mount nfs shares on a client. You can 
+This module can be used to configure your nfs client and/or server, it could export
+nfs mount resources via storeconfigs or simply mount nfs shares on a client. You can
 also easily use the create_resources function when you store your exports i.e. via hiera.
 
 ### Setup requirements
@@ -105,7 +105,7 @@ This will mount /data on client in /share/data.
       nfs_v4_client => true,
       nfs_v4_idmap_domain => $::domain,
     }
-  
+
     nfs::client::mount { '/share/data':
         server => '192.168.0.1',
         share => 'data',
@@ -363,26 +363,26 @@ This will mount /data on client in /share/data.
 **Puppet:**
 
 ```puppet
-  
+
   node server {
     hiera_include('classes')
     $nfs_exports_global = hiera_hash('nfs::nfs_exports_global', false)
-  
+
     $defaults_nfs_exports = {
       ensure  => 'mounted',
       clients => '192.168.0.0/24(rw,insecure,no_subtree_check,async,no_root_squash)',
       nfstag     => $::fqdn,
     }
-  
+
     if $nfs_exports_global {
       create_resources('::nfs::server::export', $nfs_exports_global, $defaults_nfs_exports)
     }
   }
-  
+
   node client {
     hiera_include('classes')
     $nfs_server = hiera('nfs::nfs_server', false)
-    
+
     if $nfs_server {
       Nfs::Client::Mount <<| nfstag == $nfs_server |>>
     }
@@ -577,6 +577,11 @@ This will mount /data on client in /share/data.
   to be set to the same value on a server and client node to do correct uid and gid
   mapping. Defaults to <tt>$::domain</tt>.
 
+##### `nfs_v4_idmap_local_realms`
+  String. It defines a comma-separated list of Kerberos realm
+  names that should be considered to be equivalent to the
+  local realm. Defaults to uppercased <tt>$::domain</tt>.
+
 #### Define: `::nfs::client::mount`
 
 **The following parameters are available in the `::nfs::client::mount` define:**
@@ -635,10 +640,10 @@ This will mount /data on client in /share/data.
 ##### `bind`
   String. Sets the bind options setted in /etc/fstab for the bindmounts created.
   Defaults to <tt>rbind</tt>. When you have any submounts in your exported folders,
-  the rbind option will submount them in the bindmount folder. You have to set the 
+  the rbind option will submount them in the bindmount folder. You have to set the
   `crossmnt` option in your nfs export to have the submounts from rbind available
   on your client. Your export should look like this:
-  
+
 ```puppet
 node client {
   nfs::server::export { '/home':
@@ -646,7 +651,7 @@ node client {
     clients => '*(rw,insecure,no_subtree_check,async,no_root_squash,crossmnt)',
   }
 }
-``` 
+```
 
 ##### `ensure`
   String. If enabled the mount will be created. Defaults to <tt>mounted</tt>
@@ -700,7 +705,7 @@ puppet > 3.2.0
 augeas
 
 ## Limitations
-If you want to have specific package versions installed you may manage the needed packages outside of this 
+If you want to have specific package versions installed you may manage the needed packages outside of this
 module (use manage_packages => false). It is only tested to use 'present', 'installed', 'absent',
 'purged', 'held' and 'latest' as argument for the parameters server_package_ensure and client_package_ensure.
 

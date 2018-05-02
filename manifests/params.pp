@@ -37,8 +37,10 @@ class nfs::params {
   $nfs_v4_mount_root          = '/srv'
 
   if $::domain != undef {
+    $nfs_v4_idmap_local_realms = upcase($::domain)
     $nfs_v4_idmap_domain = $::domain
   } else {
+    $nfs_v4_idmap_local_realms = 'EXAMPLE.ORG'
     $nfs_v4_idmap_domain = 'example.org'
   }
 
