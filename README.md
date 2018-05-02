@@ -582,6 +582,13 @@ This will mount /data on client in /share/data.
   names that should be considered to be equivalent to the
   local realm. Defaults to uppercased <tt>$::domain</tt>.
 
+##### `nfs_v4_idmap_translation_method`
+  String.  It defines a comma-separated, ordered list of
+  translation methods that can be used.  Distributed methods
+  include "nsswitch", "umich_ldap", and "static".  Each method
+  is a dynamically loadable plugin library.
+  New methods may be defined and inserted in the list. Defaults to "nsswitch".
+
 #### Define: `::nfs::client::mount`
 
 **The following parameters are available in the `::nfs::client::mount` define:**

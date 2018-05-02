@@ -62,6 +62,13 @@ class nfs::server::config {
       ],
     }
 
+    augeas { $::nfs::idmapd_file:
+      context => "/files/${::nfs::idmapd_file}/Translation",
+      lens    => 'Puppet.lns',
+      incl    => $::nfs::idmapd_file,
+      changes => ["set Method ${::nfs::server::nfs_v4_idmap_translation_method}"],
+    }
+
     if $nfs::storeconfigs_enabled {
       @@nfs::client::mount { $::nfs::nfs_v4_mount_root:
         ensure        => $::nfs::server::nfs_v4_root_export_ensure,

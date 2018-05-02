@@ -170,6 +170,13 @@
 #   names that should be considered to be equivalent to the
 #   local realm. Defaults to uppercased <tt>$::domain</tt>.
 #
+# [*nfs_v4_idmap_translation_method*]
+#   String.  It defines a comma-separated, ordered list of
+#   translation methods that can be used.  Distributed methods
+#   include "nsswitch", "umich_ldap", and "static".  Each method
+#   is a dynamically loadable plugin library.
+#   New methods may be defined and inserted in the list. Defaults to "nsswitch".
+#
 # === Examples
 #
 # * {Please take a look at} [https://github.com/derdanne/puppet-nfs#examples]
@@ -229,6 +236,7 @@ class nfs(
   String $nfs_v4_mount_root                                                           = $::nfs::params::nfs_v4_mount_root,
   String $nfs_v4_idmap_domain                                                         = $::nfs::params::nfs_v4_idmap_domain,
   String $nfs_v4_idmap_local_realms                                                   = $::nfs::params::nfs_v4_idmap_local_realms,
+  String $nfs_v4_idmap_translation_method                                             = $::nfs::params::nfs_v4_idmap_translation_method,
   String $nfs_v4_root_export_ensure                                                   = 'mounted',
   Optional[String] $nfs_v4_root_export_mount                                          = undef,
   Boolean $nfs_v4_root_export_remounts                                                = false,

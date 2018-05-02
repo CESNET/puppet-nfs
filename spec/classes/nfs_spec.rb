@@ -214,13 +214,18 @@ describe 'nfs' do
         context 'nfs_v4 => true' do
           let(:params) { {
                   nfs_v4: true, server_enabled: true, client_enabled: false,
-                  nfs_v4_idmap_domain: 'teststring', nfs_v4_idmap_local_realms: 'TESTDOMAIN'
+                  nfs_v4_idmap_domain: 'teststring', nfs_v4_idmap_local_realms: 'TESTDOMAIN',
+                  nfs_v4_idmap_translation_method: 'method'
           } }
 
           it { is_expected.to contain_concat__fragment('nfs_exports_root').with('target' => '/etc/exports') }
           it { is_expected.to contain_file('/export').with('ensure' => 'directory') }
           it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(
-                  [%r{set Domain teststring}, %r{set Local-Realms TESTDOMAIN}]
+                  [
+                          %r{set Domain teststring},
+                          %r{set Local-Realms TESTDOMAIN},
+                          %r{set Method method}
+                  ]
           ) }
           context os do
             if server_servicehelpers != ''
@@ -308,14 +313,18 @@ describe 'nfs' do
           let(:params) { {
                   nfs_v4: true, nfs_v4_client: true, server_enabled: true,
                   client_enabled: true, nfs_v4_idmap_domain: 'teststring',
-                  nfs_v4_idmap_local_realms: 'TESTDOMAIN'
+                  nfs_v4_idmap_local_realms: 'TESTDOMAIN', nfs_v4_idmap_translation_method: 'method'
           } }
 
           it { is_expected.to contain_augeas('/etc/idmapd.conf') }
           it { is_expected.to contain_concat__fragment('nfs_exports_root').with('target' => '/etc/exports') }
           it { is_expected.to contain_file('/export').with('ensure' => 'directory') }
           it { is_expected.to contain_augeas('/etc/idmapd.conf').with_changes(
-                  [%r{set Domain teststring}, %r{set Local-Realms TESTDOMAIN}]
+                  [
+                          %r{set Domain teststring},
+                          %r{set Local-Realms TESTDOMAIN},
+                          %r{set Method method}
+                  ]
           ) }
           context os do
             if server_servicehelpers != ''
