@@ -52,7 +52,7 @@ class nfs::server::config {
       }
     }
 
-    augeas { $::nfs::idmapd_file:
+    augeas { "${::nfs::idmapd_file}_General":
       context => "/files/${::nfs::idmapd_file}/General",
       lens    => 'Puppet.lns',
       incl    => $::nfs::idmapd_file,
@@ -62,7 +62,7 @@ class nfs::server::config {
       ],
     }
 
-    augeas { $::nfs::idmapd_file:
+    augeas { "${::nfs::idmapd_file}_Translation":
       context => "/files/${::nfs::idmapd_file}/Translation",
       lens    => 'Puppet.lns',
       incl    => $::nfs::idmapd_file,
